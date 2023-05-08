@@ -1,0 +1,63 @@
+{% extends 'baseadmin.html'%}
+{% block nav %}
+<form class="form-inline my-2 my-lg-0 d-flex" method="GET" action="{% url 'adminsearch' %}">
+    {% csrf_token %}
+    <input class="form-control mr-sm-2" type="search" name="query" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  </form>
+
+{% endblock %}
+
+{% block content %}
+<div class="mt-4 mb-3 " >
+    <h1 style="text-align: center;">User List</h1>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">No.</th>
+                            <th scope="col">ID</th>
+                            <th scope="col">Firstname</th>
+                            <th scope="col">Lastname</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Email</th>
+                            <th>Is Superuser</th>
+                            <th scope="col">  
+                                <a href="{% url 'adduser' %}" class="btn btn-outline-dark text secondary px-0" class="btn text secondary px-0">Add User</a>
+                            </th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in users %}
+                        <tr>
+                          <th>{{forloop.counter}}</th>
+                            <th scope="row">{{i.id}}</th>
+                            <td>{{i.first_name}}</td>
+                            <td>{{i.last_name}}</td>
+                            <td>{{i.username}}</td>
+                            <td>{{i.email}}</td>
+                            <td>{{i.is_superuser}}</td>
+                            <td><a href="{% url 'userupdate' i.id %}" class="btn text secondary px-0">
+                              <i class="far fa-edit fa-lg"></i>
+                            </a></td>
+                           <td>
+                             <a href="{% url 'admindelete' i.id %}" class="btn text secondary px-0" class="btn text secondary px-0">
+                              <i class="fa-solid fa-trash"></i></a>
+                           </td>
+                          </tr>
+                        {% endfor%}
+                     
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
